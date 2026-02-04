@@ -10,7 +10,7 @@ class Queue:
 
 
     def enqueue(self, data):
-        if self.is_full():
+        if self.isFull():
             return
         if self.current_size==0:
             self.front=0
@@ -23,12 +23,20 @@ class Queue:
 
     def dequeue(self):
         if self.isEmpty():
-            return
-        self.front=(self.front+1)%self.capacity
-        self.current_size-=1
-        if self.current_size==0:
-            self.front=-1
-            self.rear=-1
+            return None
+
+        value = self.queue[self.front]      
+        self.queue[self.front] = None       
+
+        self.front = (self.front + 1) % self.capacity
+        self.current_size -= 1
+
+        if self.current_size == 0:
+            self.front = -1
+            self.rear = -1
+
+        return value                       
+
             
     def isEmpty(self):
         return self.current_size==0
@@ -43,3 +51,39 @@ class Queue:
         if self.isEmpty():
             return None
         return self.queue[self.front]
+    
+    def display(self):
+        if self.isEmpty():
+            print("Queue is empty")
+            return
+        print("Queue content (front to rear): ", end="")
+        i = self.front
+        while True:
+            print(self.queue[i], end=" ")
+            if i == self.rear:
+                break
+            i = (i + 1) % self.capacity
+        print()
+    
+
+if __name__ == "__main__":
+    print("Queue Testing\n")
+    q=Queue(5)
+    print("Empty?", q.isEmpty())
+    print("Size", q.size())
+
+    q.enqueue(10)
+    q.enqueue(20)
+    q.enqueue(30)
+    q.enqueue(40)
+    q.enqueue(50)
+    q.enqueue(60)
+
+
+    q.display()
+
+    print("Dequeue:", q.dequeue())
+    print("Dequeue:", q.dequeue())
+    q.display()
+
+    print("Current Size:", q.size())

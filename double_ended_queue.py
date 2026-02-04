@@ -1,4 +1,4 @@
-from queue import Queue
+from Queue import Queue
 
 class DoubleEndedQueue(Queue):
     def __init__(self, size):
@@ -43,3 +43,18 @@ class DoubleEndedQueue(Queue):
         if self.isEmpty():
             return None
         return self.queue[self.rear]
+    
+if __name__ == "__main__":
+    deq = DoubleEndedQueue(6)
+
+    deq.enqueue(100, False)   # front
+    deq.enqueue(200, True)    # rear
+    deq.enqueue(50, False)    # front again
+    deq.enqueue(300, True)    # rear
+
+    print("Content front - rear:", [deq.queue[(deq.front + i) % deq.capacity] for i in range(deq.current_size)])
+
+    deq.dequeue(True)   # remove front
+    deq.dequeue(False)  # remove rear
+
+    print("After two removes:", [deq.queue[(deq.front + i) % deq.capacity] for i in range(deq.current_size)])
