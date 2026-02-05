@@ -31,3 +31,14 @@ def slidingWindowMaximum(Nums , k):
             result.append(Nums[deq.queue[deq.front]])
     
     return result
+
+nums = [1, 3, -1, -3, 5, 3, 6, 7]
+k = 3
+
+# Calling the function
+output = slidingWindowMaximum(nums, k)
+
+# Printing the output
+print(f"Input Nums: {nums}")
+print(f"Input k: {k}")
+print(f"Output: {output}")
