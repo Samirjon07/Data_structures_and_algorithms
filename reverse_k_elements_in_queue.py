@@ -1,58 +1,60 @@
-from Queue import Queue
+from Queue import Queue  # importing Queue class
 
-def reverseKElementsInQueue(k, q):
-    if k <= 0 or k > q.size() or q.isEmpty():
-        return q
+def reverseKElementsInQueue(k, q): # function that reverse first k elements
+    if k <= 0 or k > q.size() or q.isEmpty(): # check invalid cases, used or - since one of the conditions should be true
+        return q  # return unchanged queue
     
-    stack = []
+    stack = [] # temporary stack - it is just Python list
 
-    for _ in range(k):
-        val = q.dequeue()
-        stack.append(val)
-
-
-    while stack:
-        q.enqueue(stack.pop())
+    for _ in range(k): # removing first k elements and push into stack
+        value = q.queue[q.front]  # read front value directly
+        q.dequeue()  # remove it from queue
+        stack.append(value)  # push into stack
 
 
-    remaining = q.size() - k
+    while stack: # adding back reversed elements
+        q.enqueue(stack.pop()) # pop from stack and enqueue
+
+
+    remaining = q.size() - k # count remaing elments
+
     for _ in range(remaining):
-        val = q.dequeue()
-        q.enqueue(val)
+        value = q.queue[q.front]  # Read front value
+        q.dequeue()  # Remove it
+        q.enqueue(value)  # adding to rear
 
-    return q
+    return q # returning modified queue
 
 
 
-def print_queue(q):
-    if q.isEmpty():
+def print_queue(q): # helper fucntion to print queue 
+    if q.isEmpty(): # check whether empty
         print("[]")
         return
-    content = []
-    i = q.front
-    for _ in range(q.current_size):
-        content.append(q.queue[i])
-        i = (i + 1) % q.capacity
-    print(content)
+    
+    content = [] #temporary list to store values
 
-q = Queue(10)
-for x in [1, 10, 11, 100, 101]:
-    q.enqueue(x)
+   
+    for i in range(q.front, q.rear + 1):  # Loop from front to rear
+        content.append(q.queue[i])  # Add each element
 
-print("Original:")
-print_queue(q)                      
+    print(content)  # Print list
 
-reverseKElementsInQueue(3, q)
-print("\nAfter reverse first 3:")
-print_queue(q)                      
+# Testing program
+if __name__ == "__main__":
+    q = Queue(10)  # Create queue
 
-print("\nAfter reverse first 0 (no change):")
-reverseKElementsInQueue(0, q)
-print_queue(q)
+    # Add initial elements
+    for x in [1, 10, 11, 100, 101]:
+        q.enqueue(x)
 
-print("\nAfter reverse first 7 (larger than size):")
-reverseKElementsInQueue(7, q)
-print_queue(q)                       
+    print("Original:")
+    print_queue(q)
+
+    reverseKElementsInQueue(3, q)
+
+    print("\nAfter reversing first 3:")
+    print_queue(q)                   
 
 
 
